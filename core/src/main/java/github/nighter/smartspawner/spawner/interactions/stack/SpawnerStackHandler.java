@@ -171,9 +171,16 @@ public class SpawnerStackHandler {
 
     private boolean processStackAddition(Player player, SpawnerData targetSpawner, ItemStack itemInHand,
                                          boolean stackAll, int currentStack, int maxStackSize) {
-        int itemAmount = itemInHand.getAmount();
-        int spaceLeft = maxStackSize - currentStack;
+        int itemAmount = 0;
+        boolean placeAll = plugin.getConfig().getBoolean("spawner_properties.default.place_all_spawners", false);
+        if(placeAll) {
+            for (ItemStack iS : player.getInventory().getContents()) {
+                if(iS == null || iS.getType() == Material.AIR) continue;
+                if (iS.isSimilar(itemInHand)) itemAmount += iS.getAmount();
+            }
+        } else itemAmount = itemInHand.getAmount();
 
+        int spaceLeft = maxStackSize - currentStack;
         int amountToStack = stackAll ? Math.min(spaceLeft, itemAmount) : 1;
 
         // Check chunk limits before proceeding
@@ -203,7 +210,7 @@ public class SpawnerStackHandler {
         chunkSpawnerLimiter.registerSpawnerStack(location, amountToStack);
 
         // Update player's inventory
-        updatePlayerInventory(player, itemInHand, amountToStack);
+        updatePlayerInventory(player, itemInHand, amountToStack, placeAll);
 
         // Visual feedback
         showStackAnimation(targetSpawner, newStack, player);
@@ -211,14 +218,37 @@ public class SpawnerStackHandler {
         return true;
     }
 
-    private void updatePlayerInventory(Player player, ItemStack itemInHand, int amountUsed) {
+    private void updatePlayerInventory(Player player, ItemStack itemInHand, int amountUsed, boolean stackAll) {
         if (player.getGameMode() != GameMode.CREATIVE) {
-            int remainingAmount = itemInHand.getAmount() - amountUsed;
+            int amountToRemove;
 
-            if (remainingAmount <= 0) {
-                player.getInventory().setItemInMainHand(null);
+            if (stackAll) {
+                amountToRemove = amountUsed;
+                for (ItemStack iS : player.getInventory().getContents()) {
+                    if (iS == null || iS.getType() == Material.AIR) continue;
+                    if (!iS.isSimilar(itemInHand)) continue;
+
+                    int stackAmount = iS.getAmount();
+                    if (stackAmount <= amountToRemove) {
+                        amountToRemove -= stackAmount;
+                        player.getInventory().removeItem(iS);
+                    } else {
+                        iS.setAmount(stackAmount - amountToRemove);
+                        amountToRemove = 0;
+                        break;
+                    }
+
+                    if (amountToRemove <= 0) break;
+                }
+
+                player.updateInventory();
             } else {
-                itemInHand.setAmount(remainingAmount);
+                amountToRemove = itemInHand.getAmount() - amountUsed;
+                if (amountToRemove <= 0) {
+                    player.getInventory().setItemInMainHand(null);
+                } else {
+                    itemInHand.setAmount(amountToRemove);
+                }
             }
         }
     }

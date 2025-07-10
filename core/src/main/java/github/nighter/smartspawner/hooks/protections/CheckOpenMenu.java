@@ -22,6 +22,7 @@ public class CheckOpenMenu {
         if (integrationManager.isHasBentoBox() && !BentoBoxAPI.canPlayerOpenMenu(player, location)) return false;
         if (integrationManager.isHasSimpleClaimSystem() && !SimpleClaimSystem.canPlayerOpenMenuOnClaim(player, location))
             return false;
+        if (integrationManager.isHasMinePlots() && !MinePlots.canPlayerOpenMenu(player, location)) return false;
         return !integrationManager.isHasRedProtect() || RedProtectAPI.canPlayerOpenMenuOnClaim(player, location);
     }
 }

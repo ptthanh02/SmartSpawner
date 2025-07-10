@@ -42,6 +42,10 @@ spawner_properties:
     allow_exp_mending: true   # Allow spawners to repair items with stored XP
     protect_from_explosions: true   # Protect spawner blocks from explosion
 
+    #If enabled, the plugin will stack all spawners similar in player inventory with shift right click
+    #If disabled, the plugin will stack all spawners in the player inventory with shift right click
+    place_all_spawners: false
+
 #---------------------------------------------------
 #           Spawner Breaking Mechanics
 #---------------------------------------------------

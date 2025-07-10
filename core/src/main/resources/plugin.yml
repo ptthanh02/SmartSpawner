@@ -23,6 +23,7 @@ softdepend:
   - Towny
   - SimpleClaimSystem
   - RedProtect
+  - MinePlots
 
   # World Management Plugins
   - Multiverse-Core
