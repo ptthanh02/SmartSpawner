@@ -22,6 +22,7 @@ allprojects {
         maven { name = "bg-repo"; url = "https://repo.bg-software.com/repository/api/" }
         maven { name = "codemc"; url = "https://repo.codemc.io/repository/bentoboxworld/" }
         maven { name = "nightexpress-releases"; url = "https://repo.nightexpressdev.com/releases"}
+        maven { name = "minecodes-repository-releases"; url = "https://repository.minecodes.pl/releases"}
     }
 }
 

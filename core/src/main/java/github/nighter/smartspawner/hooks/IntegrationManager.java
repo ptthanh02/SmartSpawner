@@ -26,6 +26,7 @@ public class IntegrationManager {
     private boolean hasBentoBox = false;
     private boolean hasSimpleClaimSystem = false;
     private boolean hasRedProtect = false;
+    private boolean hasMinePlots = false;
 
     // Integration plugin flags
     private boolean hasAuraSkills = false;
@@ -97,6 +98,11 @@ public class IntegrationManager {
 
         hasRedProtect = checkPlugin("RedProtect", () -> {
             Plugin pRP = Bukkit.getPluginManager().getPlugin("RedProtect");
+            return pRP != null && pRP.isEnabled();
+        }, true);
+
+        hasMinePlots = checkPlugin("MinePlots", () -> {
+            Plugin pRP = Bukkit.getPluginManager().getPlugin("MinePlots");
             return pRP != null && pRP.isEnabled();
         }, true);
     }
