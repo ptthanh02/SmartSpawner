@@ -73,7 +73,7 @@ public class SpawnerMenuAction implements Listener {
             return;
         }
 
-        if (!(event.getInventory().getHolder() instanceof SpawnerMenuHolder holder)) {
+        if (!(event.getInventory().getHolder(false) instanceof SpawnerMenuHolder holder)) {
             return;
         }
 
@@ -82,7 +82,7 @@ public class SpawnerMenuAction implements Listener {
 
         // Verify click was in the actual menu and not player inventory
         if (event.getClickedInventory() == null ||
-                !(event.getClickedInventory().getHolder() instanceof SpawnerMenuHolder)) {
+                !(event.getClickedInventory().getHolder(false) instanceof SpawnerMenuHolder)) {
             return;
         }
 

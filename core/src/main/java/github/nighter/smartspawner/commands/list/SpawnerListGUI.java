@@ -39,7 +39,7 @@ public class SpawnerListGUI implements Listener {
 
     @EventHandler
     public void onWorldSelectionClick(InventoryClickEvent event) {
-        if (!(event.getInventory().getHolder() instanceof WorldSelectionHolder)) return;
+        if (!(event.getInventory().getHolder(false) instanceof WorldSelectionHolder)) return;
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
         if (!player.hasPermission("smartspawner.list")) {
@@ -96,7 +96,7 @@ public class SpawnerListGUI implements Listener {
 
     @EventHandler
     public void onSpawnerListClick(InventoryClickEvent event) {
-        if (!(event.getInventory().getHolder() instanceof SpawnerListHolder holder)) return;
+        if (!(event.getInventory().getHolder(false) instanceof SpawnerListHolder holder)) return;
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
         if (!player.hasPermission("smartspawner.list")) {
@@ -168,7 +168,7 @@ public class SpawnerListGUI implements Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
-        if (!(event.getInventory().getHolder() instanceof SpawnerListHolder holder)) return;
+        if (!(event.getInventory().getHolder(false) instanceof SpawnerListHolder holder)) return;
         if (!(event.getPlayer() instanceof Player player)) return;
 
         // Save user preferences when closing the inventory

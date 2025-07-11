@@ -138,7 +138,7 @@ public class SpawnerStorageUI {
         );
 
         // Cache inventory reference in holder for better performance
-        StoragePageHolder holder = (StoragePageHolder) pageInv.getHolder();
+        StoragePageHolder holder = (StoragePageHolder) pageInv.getHolder(false);
         holder.setInventory(pageInv);
         holder.updateOldUsedSlots();
 
@@ -184,7 +184,7 @@ public class SpawnerStorageUI {
         }
 
         // Check if we need to update total pages
-        StoragePageHolder holder = (StoragePageHolder) inventory.getHolder();
+        StoragePageHolder holder = (StoragePageHolder) inventory.getHolder(false);
         assert holder != null;
         int oldUsedSlots = holder.getOldUsedSlots();
         int currentUsedSlots = spawner.getVirtualInventory().getUsedSlots();

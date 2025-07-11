@@ -206,7 +206,7 @@ public class FilterConfigUI implements Listener {
      */
     @EventHandler
     public void onFilterInventoryClick(InventoryClickEvent event) {
-        if (!(event.getInventory().getHolder() instanceof FilterConfigHolder holder)) {
+        if (!(event.getInventory().getHolder(false) instanceof FilterConfigHolder holder)) {
             return;
         }
 

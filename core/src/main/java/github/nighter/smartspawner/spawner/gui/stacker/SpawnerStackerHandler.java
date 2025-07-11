@@ -98,7 +98,7 @@ public class SpawnerStackerHandler implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
-        if (!(event.getInventory().getHolder() instanceof SpawnerStackerHolder holder)) return;
+        if (!(event.getInventory().getHolder(false) instanceof SpawnerStackerHolder holder)) return;
 
         // Cancel the event to prevent item movement
         event.setCancelled(true);
@@ -142,7 +142,7 @@ public class SpawnerStackerHandler implements Listener {
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         // Prevent any dragging in the stacker GUI
-        if (event.getInventory().getHolder() instanceof SpawnerStackerHolder) {
+        if (event.getInventory().getHolder(false) instanceof SpawnerStackerHolder) {
             event.setCancelled(true);
         }
     }
@@ -150,7 +150,7 @@ public class SpawnerStackerHandler implements Listener {
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
         if (!(event.getPlayer() instanceof Player player)) return;
-        if (!(event.getInventory().getHolder() instanceof SpawnerStackerHolder holder)) return;
+        if (!(event.getInventory().getHolder(false) instanceof SpawnerStackerHolder holder)) return;
 
         // Track player as viewer of this spawner
         UUID playerId = player.getUniqueId();
@@ -167,7 +167,7 @@ public class SpawnerStackerHandler implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         if (!(event.getPlayer() instanceof Player player)) return;
-        if (!(event.getInventory().getHolder() instanceof SpawnerStackerHolder holder)) return;
+        if (!(event.getInventory().getHolder(false) instanceof SpawnerStackerHolder holder)) return;
 
         String spawnerId = holder.getSpawnerData().getSpawnerId();
         UUID playerId = player.getUniqueId();
@@ -175,7 +175,7 @@ public class SpawnerStackerHandler implements Listener {
         // Verify the player is really closing the GUI (not just inventory updates)
         Scheduler.runTaskLater(() -> {
             Inventory topInventory = player.getOpenInventory().getTopInventory();
-            if (!(topInventory.getHolder() instanceof SpawnerStackerHolder)) {
+            if (!(topInventory.getHolder(false) instanceof SpawnerStackerHolder)) {
                 // Remove viewer and cancel any pending updates
                 removeViewer(spawnerId, playerId);
             }
@@ -406,7 +406,7 @@ public class SpawnerStackerHandler implements Listener {
 
     private void updateGui(Player player, SpawnerData spawner) {
         Inventory inv = player.getOpenInventory().getTopInventory();
-        if (!(inv.getHolder() instanceof SpawnerStackerHolder)) return;
+        if (!(inv.getHolder(false) instanceof SpawnerStackerHolder)) return;
 
         // Pre-create placeholders map once
         Map<String, String> basePlaceholders = createBasePlaceholders(spawner);

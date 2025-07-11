@@ -212,7 +212,7 @@ public class SpawnerGuiViewManager implements Listener {
     public void onInventoryOpen(InventoryOpenEvent event) {
         if (!(event.getPlayer() instanceof Player player)) return;
 
-        InventoryHolder holder = event.getInventory().getHolder();
+        InventoryHolder holder = event.getInventory().getHolder(false);
         if (!isValidHolder(holder)) return;
 
         UUID playerId = player.getUniqueId();
@@ -277,7 +277,7 @@ public class SpawnerGuiViewManager implements Listener {
                     Inventory openInventory = player.getOpenInventory().getTopInventory();
                     if (openInventory == null) return;
 
-                    InventoryHolder holder = openInventory.getHolder();
+                    InventoryHolder holder = openInventory.getHolder(false);
 
                     if (holder instanceof SpawnerMenuHolder) {
                         if (!spawner.getIsAtCapacity()) {
@@ -325,7 +325,7 @@ public class SpawnerGuiViewManager implements Listener {
                     if (!player.isOnline()) return;
 
                     Inventory openInv = player.getOpenInventory().getTopInventory();
-                    if (openInv == null || !(openInv.getHolder() instanceof SpawnerMenuHolder)) return;
+                    if (openInv == null || !(openInv.getHolder(false) instanceof SpawnerMenuHolder)) return;
 
                     processInventoryUpdate(player, openInv, spawner, finalFlags);
                 });
@@ -395,10 +395,10 @@ public class SpawnerGuiViewManager implements Listener {
             if (viewerCount <= 5) {
                 // For small numbers of viewers, check inventory type now to determine storage page updates
                 Inventory openInv = viewer.getOpenInventory().getTopInventory();
-                if (openInv != null && openInv.getHolder() instanceof StoragePageHolder) {
+                if (openInv != null && openInv.getHolder(false) instanceof StoragePageHolder) {
                     // Calculate pages only when needed
                     if (oldTotalPages == -1) {
-                        StoragePageHolder holder = (StoragePageHolder) openInv.getHolder();
+                        StoragePageHolder holder = (StoragePageHolder) openInv.getHolder(false);
                         oldTotalPages = calculateTotalPages(holder.getOldUsedSlots());
                         newTotalPages = calculateTotalPages(spawner.getVirtualInventory().getUsedSlots());
                     }
@@ -422,9 +422,9 @@ public class SpawnerGuiViewManager implements Listener {
                         if (!viewer.isOnline()) return;
 
                         Inventory openInv = viewer.getOpenInventory().getTopInventory();
-                        if (openInv != null && openInv.getHolder() instanceof StoragePageHolder) {
+                        if (openInv != null && openInv.getHolder(false) instanceof StoragePageHolder) {
                             // Calculate pages only when needed (but within player's thread)
-                            StoragePageHolder holder = (StoragePageHolder) openInv.getHolder();
+                            StoragePageHolder holder = (StoragePageHolder) openInv.getHolder(false);
                             int oldPages = calculateTotalPages(holder.getOldUsedSlots());
                             int newPages = calculateTotalPages(spawner.getVirtualInventory().getUsedSlots());
 
@@ -444,9 +444,9 @@ public class SpawnerGuiViewManager implements Listener {
                 if (!viewer.isOnline()) return;
 
                 Inventory openInv = viewer.getOpenInventory().getTopInventory();
-                if (openInv == null || !(openInv.getHolder() instanceof StoragePageHolder)) return;
+                if (openInv == null || !(openInv.getHolder(false) instanceof StoragePageHolder)) return;
 
-                StoragePageHolder holder = (StoragePageHolder) openInv.getHolder();
+                StoragePageHolder holder = (StoragePageHolder) openInv.getHolder(false);
                 processStorageUpdateDirect(viewer, openInv, spawner, holder, oldTotalPages, newTotalPages);
             });
         }
